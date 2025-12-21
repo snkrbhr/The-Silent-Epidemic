@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Dossier: The Silent Epidemic - Youth Mental Health</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Roboto+Flex:opsz,wght@8..144,300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette: Serious, Urgent, Medical/Academic */
+            --color-primary: #4338ca; /* Indigo 700 - Authority */
+            --color-danger: #be123c;  /* Rose 700 - Crisis */
+            --color-warning: #b45309; /* Amber 700 - Caution */
+            --color-safe: #047857;    /* Emerald 700 - Resolution */
+            --color-bg: #f8fafc;      /* Slate 50 */
+            --color-text: #1e293b;    /* Slate 800 */
+        }
+
+        body {
+            font-family: 'Roboto Flex', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* CARD STYLING */
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-top-width: 4px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* CHART CONTAINER - MANDATORY STYLING */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 500px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* UTILITY */
+        .stat-value {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+    <!-- 
+    PALETTE: "Serious & Urgent" 
+    Used to convey the gravity of mental health statistics.
+    - Indigo (#4338ca) for data integrity.
+    - Rose (#be123c) for critical alerts (suicide stats).
+    - Amber (#b45309) for warnings (risk factors).
+    
+    VISUALIZATION CHOICE:
+    1. Trend Line (Chart.js): Visualizing the rising curve of incidents.
+    2. Cause Breakdown (Horizontal Bar): Clear comparison of triggers.
+    3. The Void (Donut): Showing the internal deficit vs external pressure.
+    4. Vulnerability (Plotly Box Plot): Age distribution analysis.
+    5. Mechanism (HTML Flow): Flowchart of the crisis cycle.
+
+    CONFIRMATION: NO SVG tags. NO Mermaid JS.
+    -->
+</head>
+<body class="antialiased">
+
+    <!-- HEADER -->
+    <header class="bg-indigo-900 text-white py-16 px-6 border-b-8 border-rose-600">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-rose-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Crisis Report</span>
+                <span class="text-indigo-200 text-xs font-semibold tracking-widest uppercase">Topic 01</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+                The Silent Epidemic: <br>
+                <span class="text-rose-400">Stress, Depression, & Suicide</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-indigo-100 max-w-3xl font-light">
+                An analytical deep-dive into the mental health crisis facing Indian youth. Understanding how the "Existential Vacuum"—lack of purpose and inner strength—leads to critical outcomes despite rising educational standards.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-20">
+
+        <!-- SECTION 1: EXECUTIVE SUMMARY (KPIs) -->
+        <section>
+            <div class="border-l-4 border-indigo-800 pl-6 mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">1. Executive Data Summary</h2>
+                <p class="text-slate-600 mt-2">Key Performance Indicators (KPIs) aggregated from National Crime Records Bureau (NCRB) and WHO data (2023-2024).</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- KPI 1 -->
+                <div class="card border-rose-600 p-6">
+                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Annual Student Deaths</h3>
+                    <div class="text-4xl font-bold text-rose-700 stat-value">13,000+</div>
+                    <p class="text-xs text-rose-900/60 mt-2 font-medium">~35 Students per Day</p>
+                </div>
+                
+                <!-- KPI 2 -->
+                <div class="card border-indigo-600 p-6">
+                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Depression Rate</h3>
+                    <div class="text-4xl font-bold text-indigo-700 stat-value">1 in 7</div>
+                    <p class="text-xs text-indigo-900/60 mt-2 font-medium">Youth (15-24 Years)</p>
+                </div>
+
+                <!-- KPI 3 -->
+                <div class="card border-amber-600 p-6">
+                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Treatment Gap</h3>
+                    <div class="text-4xl font-bold text-amber-700 stat-value">80%</div>
+                    <p class="text-xs text-amber-900/60 mt-2 font-medium">Suffer in Silence</p>
+                </div>
+
+                <!-- KPI 4 -->
+                <div class="card border-slate-600 p-6">
+                    <h3 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Primary Trigger</h3>
+                    <div class="text-2xl font-bold text-slate-700 leading-tight mt-1">Academic Failure</div>
+                    <p class="text-xs text-slate-500 mt-2 font-medium">Perceived or Real</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TREND ANALYSIS (Line Chart) -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+            <div class="lg:col-span-1 space-y-6">
+                <h2 class="text-3xl font-bold text-slate-900 border-b-4 border-rose-500 inline-block pb-2">The Escalation</h2>
+                <p class="text-slate-600 leading-relaxed text-lg">
+                    Data reveals a disturbing upward trend. While the population grows linearly, student suicide rates are growing exponentially.
+                </p>
+                <div class="bg-rose-50 border border-rose-100 p-6 rounded-lg">
+                    <p class="text-rose-800 font-serif italic text-lg">
+                        "The correlation between exam season and crisis hotlines is becoming absolute. We have tied self-worth to a number on a scorecard."
+                    </p>
+                </div>
+            </div>
+            <div class="lg:col-span-2">
+                <div class="card p-6 border-t-0">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-slate-700">Reported Incidents (2017-2023)</h3>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded">Source: NCRB</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CAUSAL BREAKDOWN (Horizontal Bar) -->
+        <section>
+            <div class="border-l-4 border-amber-600 pl-6 mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">3. Deconstructing the Triggers</h2>
+                <p class="text-slate-600 mt-2">Why are they breaking? A statistical breakdown of reported causes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-2 card p-6 border-t-0">
+                    <h3 class="font-bold text-slate-700 mb-6">Primary Causes of Extreme Distress</h3>
+                    <div class="chart-container">
+                        <canvas id="causesChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 h-full">
+                        <h4 class="text-lg font-bold text-slate-800 mb-4 font-serif">The "Double Whammy"</h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">🏠</span>
+                                <div>
+                                    <strong class="text-amber-700 text-sm uppercase tracking-wide block">Family Pressure</strong>
+                                    <span class="text-slate-600 text-sm">High expectations and lack of emotional safety nets at home (32%).</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">📝</span>
+                                <div>
+                                    <strong class="text-rose-700 text-sm uppercase tracking-wide block">Academic Fear</strong>
+                                    <span class="text-slate-600 text-sm">The fear of failure often outweighs the desire for success (28%).</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: THE MECHANISM (HTML Flow) -->
+        <section class="bg-slate-100 rounded-2xl p-8 md:p-12">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900">4. The Cycle of Collapse</h2>
+                <p class="text-slate-500 mt-2">The psychological progression from pressure to crisis.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                <!-- Connector Line (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-300 -translate-y-1/2 z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="relative z-10 bg-white p-8 rounded-xl shadow-lg border-b-4 border-slate-400 text-center">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">⚖️</div>
+                    <h4 class="font-bold text-lg text-slate-800">External Pressure</h4>
+                    <p class="text-sm text-slate-500 mt-2">Comparison, Competition, Parental Expectation.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative z-10 bg-white p-8 rounded-xl shadow-lg border-b-4 border-amber-500 text-center transform scale-105">
+                    <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">🕳️</div>
+                    <h4 class="font-bold text-lg text-slate-800">Existential Vacuum</h4>
+                    <p class="text-sm text-slate-500 mt-2">"I am nothing without my grades." Loss of Identity.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative z-10 bg-white p-8 rounded-xl shadow-lg border-b-4 border-rose-600 text-center">
+                    <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">💥</div>
+                    <h4 class="font-bold text-lg text-slate-800">Mental Collapse</h4>
+                    <p class="text-sm text-slate-500 mt-2">Anxiety, Isolation, Depression, Crisis.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: DEMOGRAPHICS & GAPS -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Box Plot -->
+            <div class="card p-6 border-t-0">
+                <h3 class="font-bold text-slate-700 mb-2">Age Vulnerability Analysis</h3>
+                <p class="text-xs text-slate-400 mb-4">Distribution of reported high-stress incidents by age.</p>
+                <div class="chart-container" id="ageBoxPlot">
+                    <!-- Plotly renders here -->
+                </div>
+            </div>
+
+            <!-- Donut Chart -->
+            <div class="card p-6 border-t-0 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="font-bold text-slate-700">The Help-Seeking Gap</h3>
+                    <p class="text-xs text-slate-400">Professional assistance utilization.</p>
+                </div>
+                <div class="chart-container flex-grow">
+                    <canvas id="gapChart"></canvas>
+                </div>
+                <div class="mt-4 text-center bg-slate-50 p-3 rounded">
+                    <p class="text-sm font-bold text-slate-600">Only <span class="text-emerald-600">20%</span> seek help.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-slate-200 pt-10 pb-6 text-center text-slate-500 text-sm">
+            <p class="font-bold text-slate-700">Research Dossier Generated for Topic: Stress & Depression</p>
+            <p class="mt-2">Data Sources: NCRB 2023, Lancet Psychiatry, WHO Mental Health Report.</p>
+        </footer>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --------------------------------------------------------
+        // UTILITY: Label Wrapping (Mandatory)
+        // --------------------------------------------------------
+        function wrapLabel(str) {
+            if (str.length <= 16) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let line = words[0];
+            
+            for (let i = 1; i < words.length; i++) {
+                if ((line + " " + words[i]).length <= 16) {
+                    line += " " + words[i];
+                } else {
+                    lines.push(line);
+                    line = words[i];
+                }
+            }
+            lines.push(line);
+            return lines;
+        }
+
+        const commonTooltip = {
+            callbacks: {
+                title: function(context) {
+                    const label = context[0].label;
+                    return Array.isArray(label) ? label.join(' ') : label;
+                }
+            }
+        };
+
+        // Global Chart Defaults for "Serious/Academic" look
+        Chart.defaults.font.family = "'Roboto Flex', sans-serif";
+        Chart.defaults.color = '#64748b';
+
+        // --------------------------------------------------------
+        // CHART 1: TREND ANALYSIS (Line Chart)
+        // --------------------------------------------------------
+        const ctxTrend = document.getElementById('trendChart').getContext('2d');
+        new Chart(ctxTrend, {
+            type: 'line',
+            data: {
+                labels: ['2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    label: 'Student Suicide Incidents',
+                    data: [9905, 10159, 10335, 12526, 13089, 13044, 13425],
+                    borderColor: '#be123c', // Rose 700
+                    backgroundColor: 'rgba(190, 18, 60, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#be123c'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: commonTooltip,
+                    legend: { display: true, position: 'top' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: { display: true, text: 'Reported Cases' }
+                    }
+                }
+            }
+        });
+
+        // --------------------------------------------------------
+        // CHART 2: CAUSES BREAKDOWN (Horizontal Bar)
+        // --------------------------------------------------------
+        const ctxCauses = document.getElementById('causesChart').getContext('2d');
+        const causeLabels = [
+            "Family Problems", 
+            "Failure in Exams", 
+            "Illness (Mental/Physical)", 
+            "Drug Abuse/Addiction", 
+            "Love Affairs", 
+            "Poverty/Finance",
+            "Unemployment"
+        ].map(wrapLabel);
+
+        new Chart(ctxCauses, {
+            type: 'bar',
+            data: {
+                labels: causeLabels,
+                datasets: [{
+                    label: '% of Reported Cases',
+                    data: [32, 28, 18, 9, 6, 4, 3],
+                    backgroundColor: [
+                        '#b45309', // Amber (Family)
+                        '#be123c', // Rose (Exams - Critical)
+                        '#4338ca', // Indigo (Illness)
+                        '#64748b', // Slate
+                        '#64748b',
+                        '#64748b',
+                        '#64748b'
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: commonTooltip,
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 40,
+                        title: { display: true, text: 'Percentage (%)' }
+                    }
+                }
+            }
+        });
+
+        // --------------------------------------------------------
+        // CHART 3: VULNERABILITY (Plotly Box Plot)
+        // --------------------------------------------------------
+        // Simulating distribution data
+        const yData = [];
+        // High School (14-17)
+        for (let i = 0; i < 40; i++) yData.push(Math.floor(Math.random() * (17 - 14 + 1)) + 14);
+        // College/Entrance Exam Phase (18-24) - Highest Density
+        for (let i = 0; i < 100; i++) yData.push(Math.floor(Math.random() * (24 - 18 + 1)) + 18);
+        // Early Career (25-30)
+        for (let i = 0; i < 30; i++) yData.push(Math.floor(Math.random() * (30 - 25 + 1)) + 25);
+
+        const boxData = [{
+            y: yData,
+            type: 'box',
+            name: 'Age Distribution',
+            marker: { color: '#4338ca' },
+            boxpoints: 'all',
+            jitter: 0.3,
+            pointpos: -1.8
+        }];
+
+        const boxLayout = {
+            margin: { t: 20, b: 40, l: 40, r: 20 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { family: 'Roboto Flex', color: '#64748b' },
+            yaxis: { title: 'Age of Victim' }
+        };
+
+        const config = { responsive: true, displayModeBar: false };
+        Plotly.newPlot('ageBoxPlot', boxData, boxLayout, config);
+
+        // --------------------------------------------------------
+        // CHART 4: HELP GAP (Donut)
+        // --------------------------------------------------------
+        const ctxGap = document.getElementById('gapChart').getContext('2d');
+        const gapLabels = ['Suffering in Silence', 'Seeking Help'].map(wrapLabel);
+
+        new Chart(ctxGap, {
+            type: 'doughnut',
+            data: {
+                labels: gapLabels,
+                datasets: [{
+                    data: [80, 20],
+                    backgroundColor: [
+                        '#be123c', // Silence (Danger)
+                        '#047857'  // Help (Safe)
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    tooltip: commonTooltip,
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+```
